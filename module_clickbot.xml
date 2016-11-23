@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_clickbot" default="compile.module.clickbot">
+  <dirname property="module.clickbot.basedir" file="${ant.file.module_clickbot}"/>
+  
+  <property name="module.jdk.home.clickbot" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.clickbot" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.clickbot" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.clickbot" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="clickbot.output.dir" value="${module.clickbot.basedir}/out/production/ClickBot"/>
+  <property name="clickbot.testoutput.dir" value="${module.clickbot.basedir}/out/test/ClickBot"/>
+  
+  <path id="clickbot.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="clickbot.module.production.classpath">
+    <path refid="${module.jdk.classpath.clickbot}"/>
+    <pathelement location="${basedir}/lib/jnativehook-2.0.3.jar"/>
+  </path>
+  
+  <path id="clickbot.runtime.production.module.classpath">
+    <pathelement location="${clickbot.output.dir}"/>
+    <pathelement location="${basedir}/lib/jnativehook-2.0.3.jar"/>
+  </path>
+  
+  <path id="clickbot.module.classpath">
+    <path refid="${module.jdk.classpath.clickbot}"/>
+    <pathelement location="${clickbot.output.dir}"/>
+    <pathelement location="${basedir}/lib/jnativehook-2.0.3.jar"/>
+  </path>
+  
+  <path id="clickbot.runtime.module.classpath">
+    <pathelement location="${clickbot.testoutput.dir}"/>
+    <pathelement location="${clickbot.output.dir}"/>
+    <pathelement location="${basedir}/lib/jnativehook-2.0.3.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.clickbot">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.clickbot">
+    <patternset refid="excluded.from.module.clickbot"/>
+  </patternset>
+  
+  <path id="clickbot.module.sourcepath">
+    <dirset dir="${module.clickbot.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.clickbot" depends="compile.module.clickbot.production,compile.module.clickbot.tests" description="Compile module ClickBot"/>
+  
+  <target name="compile.module.clickbot.production" depends="register.custom.compilers" description="Compile module ClickBot; production classes">
+    <mkdir dir="${clickbot.output.dir}"/>
+    <javac2 destdir="${clickbot.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.clickbot}/javac">
+      <compilerarg line="${compiler.args.clickbot}"/>
+      <bootclasspath refid="clickbot.module.bootclasspath"/>
+      <classpath refid="clickbot.module.production.classpath"/>
+      <src refid="clickbot.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.clickbot"/>
+    </javac2>
+    
+    <copy todir="${clickbot.output.dir}">
+      <fileset dir="${module.clickbot.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.clickbot.tests" depends="register.custom.compilers,compile.module.clickbot.production" description="compile module ClickBot; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.clickbot" description="cleanup module">
+    <delete dir="${clickbot.output.dir}"/>
+    <delete dir="${clickbot.testoutput.dir}"/>
+  </target>
+</project>
