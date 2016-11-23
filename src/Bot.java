@@ -5,20 +5,22 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
 
-/**
- * Created by Junior on 01/10/2016.
- */
-public class main extends JFrame{
+//Classe globale ( éxécutée ), incluant construction de l'IHM.
+
+public class Bot extends JFrame{
 
     private JLabel label = new JLabel("Nombre de clics par seconde : 25");
     protected static int nbClics = 25;
-    public static JLabel Texte = new JLabel("F4 pour Lancer / Couper");
+    public static JLabel texte = new JLabel("F4 pour Lancer / Couper");
     public static boolean botOn = false;
     protected static NumberFormat formatDureeBot;
-    protected static JFormattedTextField tempsExec = new JFormattedTextField(formatDureeBot);
     private JPanel panGlobal = new JPanel();
 
-    public main() {
+    /* On construit l'IHM, en y ajoutant le curseur, puis un listener de type ChangeListener(), qui modifie la donnée membre nbClics.
+        On ajoute du texte, puis dans panneaux, puis on condtruit l'IHM qu'on rends visible.
+     */
+
+    public Bot() {
         super("ClickBot By Minipasglop");
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,22 +38,20 @@ public class main extends JFrame{
                 nbClics = ((JSlider)event.getSource()).getValue();
             }
         });
-        tempsExec.setValue(new Double(60));
-        tempsExec.setColumns(15);
-        panGlobal.setLayout(new GridLayout(0,1));
         JPanel panCurseur = new JPanel();
         panCurseur.setLayout(new BorderLayout());
         panCurseur.add(slide,BorderLayout.CENTER);
         panCurseur.add(label,BorderLayout.SOUTH);
         panGlobal.add(panCurseur);
-        panGlobal.add(Texte);
+        panGlobal.add(texte);
         this.add(panGlobal);
         this.pack();
         this.setResizable(false);
         this.setVisible(true);
-    }
+    }//Bot(), constructeur
 
-    public static void ClickBot() {
+    //Le corps même du bot, c'est ce qui va générer les clics quand il sera appelé dans le thread invoqué par la classe Clicking
+    public static void clickBot() {
         try {
             Robot robot = new Robot();
             while (botOn) {
@@ -61,17 +61,19 @@ public class main extends JFrame{
                     robot.mouseRelease(InputEvent.BUTTON1_MASK);
                     }
                 catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
             }
         }
         catch (AWTException e) {
+            e.printStackTrace();
         }
         botOn = false;
-    }
+    }//clickBot()
 
-
+    //Notre main, ce qui est éxécuté.
     public static void main(String[] args) {
-        main ClickBot = new main();
+        Bot ClickBot = new Bot();
         ClickBot.addWindowListener(new KeyLogger());
-    }
+    }//main
 }

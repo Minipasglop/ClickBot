@@ -5,22 +5,22 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-/**
- * Created by Junior on 03/10/2016.
- */
+//Classe appellée KeyLogger se basant sur la librairie jnativehook
+//Ce n'est pas un KeyLogger en réalité, ca permets juste de lancer / couper le Bot quand on appuie sur F4
+//Cependant, on peut pousser le concept plus loin.
 
 public class KeyLogger implements NativeKeyListener, WindowListener
 {
     public void nativeKeyPressed(NativeKeyEvent e) {
-        if(e.getKeyCode() == NativeKeyEvent.VC_F4 && main.botOn) {
-            main.botOn = false;
+        if(e.getKeyCode() == NativeKeyEvent.VC_F4 && Bot.botOn) { //Si la touche pressée correspond à F4 et que le bot tourne, on l'arrete
+            Bot.botOn = false;
             System.out.println("Stop");
         }
-        else if(e.getKeyCode() == NativeKeyEvent.VC_F4 && ! main.botOn) {
-            main.botOn = true;
+        else if(e.getKeyCode() == NativeKeyEvent.VC_F4 && ! Bot.botOn) { //Si la touche presssée correspond à F4 et que le bot ne tourne pas, on le lance.
+            Bot.botOn = true;
             new Clicking().execute();
         }
-    }
+    }//nativeKeyPressed()
 
     public void nativeKeyReleased(NativeKeyEvent e) {
     }
@@ -28,6 +28,8 @@ public class KeyLogger implements NativeKeyListener, WindowListener
     public void nativeKeyTyped(NativeKeyEvent e) {
     }
 
+
+    //Méthode permettant d'ajouter le "KeyLogger" à la fenetre et qu'il puisse donc agir.
     @Override
     public void windowOpened(WindowEvent e) {
         try {
@@ -36,12 +38,13 @@ public class KeyLogger implements NativeKeyListener, WindowListener
             ev.printStackTrace();
         }
         GlobalScreen.addNativeKeyListener(this);
-    }
+    }//windowOpened()
 
     @Override
     public void windowClosing(WindowEvent e) {
     }
 
+    //Méthode permettant de supprimer le "KeyLogger" de la fenetre a sa fermeture.
     public void windowClosed(WindowEvent e) {
         // Clean up the native hook.
         try {
@@ -52,7 +55,7 @@ public class KeyLogger implements NativeKeyListener, WindowListener
         }
         System.runFinalization();
         System.exit(0);
-    }
+    }//windowClosing()
 
     @Override
     public void windowIconified(WindowEvent e) {

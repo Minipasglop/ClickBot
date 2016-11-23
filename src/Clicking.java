@@ -1,12 +1,11 @@
 import javax.swing.*;
 
-/**
- * Created by Junior on 02/10/2016.
- */
+//Classe permetant de gérer le thread relatif au clic, en dehors du main.
+//On utilise donc un SwingWorker pour éviter que l'IHM freeze quand on lance les clics.
 public class Clicking extends SwingWorker<Void, Object> {
     @Override
     protected Void doInBackground() throws Exception {
-        main.ClickBot();
+        Bot.clickBot();
         return null;
     }
 
