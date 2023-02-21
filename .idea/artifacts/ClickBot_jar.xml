@@ -1,14 +1,9 @@
 <component name="ArtifactManager">
-  <artifact name="ClickBot:jar">
+  <artifact type="jar" build-on-make="true" name="ClickBot:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/ClickBot_jar</output-path>
-    <root id="root">
-      <element id="archive" name="ClickBot.jar">
-        <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
-        </element>
-        <element id="module-output" name="ClickBot" />
-      </element>
-      <element id="file-copy" path="$PROJECT_DIR$/lib/jnativehook-2.0.3.jar" />
+    <root id="archive" name="ClickBot.jar">
+      <element id="module-output" name="ClickBot" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jnativehook-2.2.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

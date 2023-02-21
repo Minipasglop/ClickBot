@@ -3,18 +3,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.NumberFormat;
 
 //Classe globale ( éxécutée ), incluant construction de l'IHM.
 
 public class Bot extends JFrame{
 
-    private JLabel label = new JLabel("Nombre de clics par seconde : 25");
+    private final JLabel label = new JLabel("Nombre de clics par seconde : 25");
     protected static int nbClics = 25;
     public static JLabel texte = new JLabel("F4 pour Lancer / Couper");
     public static boolean botOn = false;
-    protected static NumberFormat formatDureeBot;
-    private JPanel panGlobal = new JPanel();
 
     /* On construit l'IHM, en y ajoutant le curseur, puis un listener de type ChangeListener(), qui modifie la donnée membre nbClics.
         On ajoute du texte, puis dans panneaux, puis on condtruit l'IHM qu'on rends visible.
@@ -42,6 +39,7 @@ public class Bot extends JFrame{
         panCurseur.setLayout(new BorderLayout());
         panCurseur.add(slide,BorderLayout.CENTER);
         panCurseur.add(label,BorderLayout.SOUTH);
+        JPanel panGlobal = new JPanel();
         panGlobal.add(panCurseur);
         panGlobal.add(texte);
         this.add(panGlobal);

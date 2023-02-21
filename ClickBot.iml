@@ -13,10 +13,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/jnativehook-2.0.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/jnativehook-2.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
